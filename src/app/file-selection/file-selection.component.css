@@ -1,0 +1,39 @@
+mat-stepper {
+    background-color: #2e2e2e;
+}
+
+::ng-deep .mat-step-label{
+    color: #e77900!important;
+}
+
+::ng-deep .mat-step-icon {
+    background-color: #e77900!important;
+}
+
+::ng-deep .mat-step-icon-content{
+    color: #2e2e2e!important; /* Remplacez cette couleur par celle de votre choix */
+}
+
+::ng-deep .mat-stepper-horizontal-line {
+    border-top-color: #e77900!important; /* Remplacez par la couleur de votre choix */
+}
+
+.button {
+    border: 1px solid black;
+    padding: 15px;
+    background: #e77900;
+}
+
+
+#informations {
+    justify-content: space-around;
+}
+
+#form {
+    display: flex;
+    flex-direction: column;
+}
+
+::ng-deep .button {
+    color: white!important; /* Changez ici la couleur du texte */
+}

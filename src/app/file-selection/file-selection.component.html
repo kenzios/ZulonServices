@@ -1,0 +1,91 @@
+<mat-stepper linear="false">
+  <mat-step [stepControl]="firstFormGroup">
+    <ng-template matStepLabel color="white">Transporteur</ng-template>
+    <mat-grid-list  [cols]="isSmallScreen ? 1 : 3" rowHeight="100px">
+      <mat-grid-tile
+          *ngFor="let transporteur of transporteurs">
+          <mat-card (click)="chooseTransporteur(transporteur)" matStepperNext
+          [ngStyle]="{
+            'background-color': transporteur === currentTransporteur ? '#e77900' : 'transparent',
+            'border': '1px solid  #e77900',
+            'padding': '20px',
+            'border-radius': '15px'
+            }">
+            <img [src]="transporteur.image" width="200px">
+          </mat-card>
+      </mat-grid-tile>
+    </mat-grid-list>
+    <br>
+    <br>
+    <div style="display: flex; justify-content: center;">
+      <button mat-button [hidden]="!currentTransporteur" class="button" matStepperNext>Suivant</button>
+    </div>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup">
+    <ng-template matStepLabel class="test" color="white">Boxing</ng-template>
+    <mat-grid-list *ngIf="currentTransporteur" [cols]="isSmallScreen ? 1 : 3" rowHeight="100px">
+      <mat-grid-tile
+          *ngFor="let boxing of currentTransporteur.boxings">
+          <mat-card (click)="chooseBoxing(boxing)" matStepperNext [ngStyle]="{
+            'background-color': boxing === currentBoxing ? '#e77900' : 'transparent',
+            'border': '1px solid  #e77900',
+            'padding': '20px',
+            'border-radius': '15px',
+            'width': '33%'
+            }">
+            <!-- <img [src]="currentTransporteur.image" width="120px"> -->
+            <strong style="text-align: center; color: white;">{{boxing.nom }}</strong>
+            <p style="text-align: center; color: white;">{{boxing.prix}} €</p>
+          </mat-card>
+      </mat-grid-tile>
+    </mat-grid-list>
+    <br>
+    <br>
+    <div style="display: flex; justify-content: center;">
+      <button mat-button [hidden]="!currentBoxing" class="button" matStepperNext>Suivant</button>
+    </div>
+  </mat-step>
+  <mat-step [stepControl]="thirdFormGroup">
+    <ng-template matStepLabel class="test" color="white">Suivi</ng-template>
+    <div id="informations" [ngStyle]="{
+      'display': 'flex',
+      'flex-direction': isSmallScreen ? 'column' : 'row',
+      }">
+      <form *ngIf="currentBoxing" id="form">
+        <mat-form-field >
+          <mat-label>Votre @Telegram</mat-label>
+          <input matInput maxlength="15" [(ngModel)]="userTelegram" name="telegram" placeholder="@Zulon">
+        </mat-form-field>
+        <mat-form-field >
+          <mat-label>Numéro de suivi</mat-label>
+          <input matInput maxlength="30" [(ngModel)]="currentTracking" name="tracking" placeholder="XW630334134JB">
+        </mat-form-field>
+        <mat-form-field >
+          <mat-label>Numéro de transaction </mat-label>
+          <input matInput maxlength="256" [(ngModel)]="currentTXID" name="txid" placeholder="92341379caa689vbad32bfed3c29c86ebeb17a0a85c3ee831235accd77bcf5agd6">
+        </mat-form-field>
+        <input (change)="onFileSelected($event)" style="color: white;" type="file" id="file" name="fichier" [(ngModel)]="fichier">
+        <br>
+        <br>
+        <div style="display: flex; justify-content: center; ">
+          <button mat-button class="button" [disabled]="!userTelegram || !currentTracking || !currentTXID || !fichier" (click)="onSubmit()" matStepperNext>Envoyer</button>
+        </div>    
+      </form>
+      <br *ngIf="isSmallScreen">
+      <mat-card *ngIf="currentBoxing" [ngStyle]="{
+        'width': isSmallScreen ? '100%' : '15%',
+        'background-color': '#e77900'
+      }">
+        <mat-card-content style="margin: 0 auto; text-align: center; color:white;">
+          <img [src]="currentTransporteur.image" width="180px">
+          <br><br><br>
+          <strong> {{ currentBoxing.nom }} </strong>
+        </mat-card-content>
+        <br>
+        <mat-card-footer style="margin: 0 auto; text-align: center; color: white;">
+          <strong>Total : {{ currentBoxing.prix }} €</strong> 
+        </mat-card-footer>
+      </mat-card>
+    </div>
+  </mat-step>
+</mat-stepper>
